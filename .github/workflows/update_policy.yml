@@ -1,6 +1,5 @@
 name: Update Privacy Policy
 
-# Run daily and allow manual triggers
 on:
   schedule:
     - cron: '0 0 * * *' # daily at midnight UTC
@@ -31,7 +30,7 @@ jobs:
       - name: Run generate_policy.py
         run: python generate_policy.py
 
-      # 5️⃣ Commit and push changes only if there are changes
+      # 5️⃣ Commit and push changes using GITHUB_TOKEN
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
@@ -40,6 +39,7 @@ jobs:
           # Only commit if there are staged changes
           if ! git diff --cached --quiet; then
             git commit -m "Auto-update game list in privacy policy"
+            # Use GITHUB_TOKEN for authentication
             git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           else
             echo "No changes to commit"
