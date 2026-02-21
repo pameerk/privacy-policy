@@ -40,7 +40,7 @@ jobs:
           # Only commit if there are staged changes
           if ! git diff --cached --quiet; then
             git commit -m "Auto-update game list in privacy policy"
-            git push
+            git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
           else
             echo "No changes to commit"
           fi
