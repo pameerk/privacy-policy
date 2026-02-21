@@ -2,7 +2,7 @@ name: Auto Update Privacy Policy
 
 on:
   schedule:
-    - cron: '0 0 * * *' # runs daily at midnight UTC
+    - cron: '0 0 * * *' # daily at midnight UTC
   workflow_dispatch:   # allows manual trigger
 
 jobs:
@@ -13,7 +13,7 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
-        persist-credentials: false  # We'll provide token manually
+        persist-credentials: false  # disable default token
 
     - name: Set up Git
       run: |
@@ -22,8 +22,7 @@ jobs:
 
     - name: Make changes
       run: |
-        # Example: auto-update a game list in privacy policy
-        # Replace this with your actual update script
+        # Replace this with your actual update commands
         echo "- New Game Added" >> privacy-policy.md
 
     - name: Commit changes
@@ -33,6 +32,6 @@ jobs:
 
     - name: Push changes
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
       run: |
-        git push https://x-access-token:${GITHUB_TOKEN}@github.com/pameerk/privacy-policy.git HEAD:main
+        git push https://${PAT_TOKEN}@github.com/pameerk/privacy-policy.git HEAD:main
